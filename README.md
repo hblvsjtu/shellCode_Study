@@ -10,12 +10,109 @@
 ## 目录
 ## [一、简介](#1)
 ### [1.1 运行方式](#1.1)
+### [1.2 变量](#1.2)
+### [1.3 字符串](#1.3)
+### [1.4 外部传入参数](#1.4)
+### [1.5 数组](#1.5)
 
         
 ------      
         
 <h2 id='1'>一、简介</h2>
 <h3 id='1.1'>1.1 运行方式</h3>
+
         
-#### 1) 直接运行
+#### 1) 作为可执行程序直接运行
+> - 需要先给程序可执行的权限，
+                
+                chmod +x ./test.sh  #使脚本具有执行权限
+                # chmod 755 ./test.sh
+                ./test.sh  #执行脚本
 #### 2) 使用编译器运行
+> - 如
+                
+                sh test.sh
+
+
+<h3 id='1.2'>1.2 变量</h3>
+
+#### 1) 定义变量
+> - 定义变量时，变量名不加美元符号
+> - 变量名和等号之间不能有空格
+#### 2) 使用变量
+> - 使用一个定义过的变量，只要在变量名前面加美元符号即可
+> - 也可以加上花括号，也可以不加，加上花括号有利于编译器辩识变量的边界
+                
+                appledeMacBook-Pro:shellCode_Study lvhongbin$ myName="lvhongbin"
+                appledeMacBook-Pro:shellCode_Study lvhongbin$ echo $myName
+                lvhongbin
+                appledeMacBook-Pro:shellCode_Study lvhongbin$ echo "My name is ${myName}"
+                My name is lvhongbin
+#### 3) 只读变量
+> - readonly
+#### 4) 删除变量
+> - unset
+> - unset 命令不能删除只读变量
+
+
+<h3 id='1.3'>1.3 字符串</h3>
+
+#### 1) 引号
+> - 字符串可以用单引号，也可以用双引号
+> - 单引号里的任何字符都会原样输出，单引号字符串中的变量是无效的；
+#### 2) 获取字符串长度
+> - 变量花括号首字符添加井号"#"
+                
+                appledeMacBook-Pro:shellCode_Study lvhongbin$ myName="lvhongbin"
+                appledeMacBook-Pro:shellCode_Study lvhongbin$ echo ${#myName}
+
+#### 3) 截取字符串
+> - 两个冒号
+> - 左闭右开
+                
+                appledeMacBook-Pro:shellCode_Study lvhongbin$ myName="lvhongbin"
+                appledeMacBook-Pro:shellCode_Study lvhongbin$ echo ${myName:0:2}
+                lv
+
+
+<h3 id='1.4'>1.4 外部传入参数 </h3>
+
+#### 1) $n
+> - 向脚本传递参数，脚本内获取参数的格式为：$n
+> - $0表示 要执行的第一个命令(不包括sh或者bash)
+> - $1表示 命令后的第一个参数
+> - $2,$3如此类推
+                
+#### 2) 参数说明
+
+参数类型 | 参数说明
+-|-
+$#  | 参数的个数
+$*  | 以一个单字符串显示所有向脚本传递的参数。如"$*"用「"」括起来的情况、以"$1 $2 … $n"的形式输出所有参数。
+$$  | 脚本运行的当前进程ID号
+$!  | 后台运行的最后一个进程的ID号
+$@  | 与$*相同，但是使用时加引号，并在引号中返回每个参数。如"$@"用「"」括起来的情况、以"$1" "$2" … "$n" 的形式输出所有参数。
+$-  | 显示Shell使用的当前选项，与set命令功能相同。
+$?  | 显示最后命令的退出状态。**0表示没有错误，其他任何值表明有错误。**
+                
+                chmod +x argus.sh
+                appledeMacBook-Pro:test lvhongbin$ ./argus.sh lv hong bin
+                This is commond: ./argus.sh
+                This is 1st arguements: lv
+                This is 2nd arguements: hong
+                This is 3rd  arguements: bin
+
+                #! ./argus.sh
+                # author: lvhongbin
+                # description: receive outer arguments
+
+                echo "This is commond: $0"
+                echo "This is 1st arguements: $1"
+                echo "This is 2nd arguements: $2"
+                echo "This is 3rd  arguements: $3"
+
+
+<h3 id='1.5'>1.5 数组 </h3>
+
+#### 1) $n
+> - 
