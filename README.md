@@ -14,6 +14,7 @@
 ### [1.3 字符串](#1.3)
 ### [1.4 外部传入参数](#1.4)
 ### [1.5 数组](#1.5)
+### [1.6 运算符](#1.6)
 
         
 ------      
@@ -61,7 +62,7 @@
 > - 字符串可以用单引号，也可以用双引号
 > - 单引号里的任何字符都会原样输出，单引号字符串中的变量是无效的；
 #### 2) 获取字符串长度
-> - 变量花括号首字符添加井号"#"
+> - 变量左花括号后的首字符添加井号"#"
                 
                 appledeMacBook-Pro:shellCode_Study lvhongbin$ myName="lvhongbin"
                 appledeMacBook-Pro:shellCode_Study lvhongbin$ echo ${#myName}
@@ -114,5 +115,49 @@ $?  | 显示最后命令的退出状态。**0表示没有错误，其他任何�
 
 <h3 id='1.5'>1.5 数组 </h3>
 
-#### 1) $n
-> - 
+#### 1) 格式
+> - Shell 数组用括号来表示，元素用"空格"符号分割开
+> - 读取数组的时候还是用回中括号
+> - 也可以直接定义每个元素，如arr[0]=1
+        
+        appledeMacBook-Pro:lego_docs lvhongbin$ p=(1 2 3)
+        appledeMacBook-Pro:lego_docs lvhongbin$ echo ${p[0]}
+        1
+
+#### 2) 获取数组中的所有元素
+> - 使用@ 或 * 可以获取数组中的所有元素，如arr[@], arr[*]
+> - 类似toString方法打印，但是连接各个元素的是空格
+#### 3) 获取数组中的长度
+> - 变量左花括号后的首字符添加井号"#"
+                
+                appledeMacBook-Pro:lego_docs lvhongbin$ echo ${#p[*]}
+                3
+                appledeMacBook-Pro:lego_docs lvhongbin$ echo ${#p[#]}
+                -bash: #: syntax error: operand expected (error token is "#")
+                appledeMacBook-Pro:lego_docs lvhongbin$ echo ${#p[@]}
+                3
+
+
+<h3 id='1.6'>1.6 运算符</h3>
+
+#### 1) 注意
+> - 原生bash不支持简单的数学运算，但是可以通过其他命令来实现，例如 awk 和 expr，expr 最常用
+> - 下面使用expr举例
+> - 注意算数式左右使用的是反上引号
+> - 注意二元运算符左右需要有一个空格
+                
+                appledeMacBook-Pro:lego_docs lvhongbin$ echo `expr 1 + 2`
+                3
+#### 2) 算术运算符列表
+> - 需要注意的是乘号需要转义
+
+参数类型 | 参数说明 | 举例
+-|-|-
++  | 加法 | `expr $a + $b` 结果为 30。
+-  | 减法 | `expr $a - $b` 结果为 -10。
+*  | 乘法 | `expr $a \* $b` 结果为  200。
+/  |除法  | `expr $b / $a` 结果为 2。
+%  |取余  | `expr $b % $a` 结果为 0。
+=  | 赋值 | a=$b 将把变量 b 的值赋给 a。
+== | 相等 | 用于比较两个数字，相同则返回 true。 [ $a == $b ] 返回 false。
+!= | 不相等 |用于比较两个数字，不相同则返回 true。   [ $a != $b ] 返回 true。
