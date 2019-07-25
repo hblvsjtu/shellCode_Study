@@ -19,6 +19,12 @@
 ### [2.1 echo](#2.1)
 ### [2.2 printf](#2.2)
 ### [2.3 test](#2.3)
+## [三、流程控制与函数](#3)
+### [3.1 条件控制](#3.1)
+### [3.2 循环控制](#3.2)
+### [3.3 函数](#3.3)
+## [四、输入输出重定向](#4)
+### [4.1 条件控制](#4.1)
 
         
 ------      
@@ -135,7 +141,7 @@ $?  | 显示最后命令的退出状态。**0表示没有错误，其他任何�
         1
 
 #### 2) 获取数组中的所有元素
-> - 使用@ 或 * 可以获取数组中的所有元素，如arr[@], arr[*]
+> - 使用@ 或 * 可以获取数组中的所有元素，如arr[@], arr[\*]
 > - 类似toString方法打印，但是连接各个元素的是空格
 #### 3) 获取数组中的长度
 > - 变量左花括号后的首字符添加井号"#"
@@ -159,6 +165,9 @@ $?  | 显示最后命令的退出状态。**0表示没有错误，其他任何�
                 
                 appledeMacBook-Pro:lego_docs lvhongbin$ echo `expr 1 + 2`
                 3
+                appledeMacBook-Pro:test lvhongbin$ i=0 ; i="expr $i + 1"
+appledeMacBook-Pro:test lvhongbin$ ${i}
+1
 #### 2) 算术运算符列表
 > - 需要注意的是乘号需要转义
 > - 相等yi
@@ -290,10 +299,104 @@ $?  | 显示最后命令的退出状态。**0表示没有错误，其他任何�
 -f  | 文件存在且为普通文件为真
 -c  | 文件存在为字符型特殊文件为真
 -b  | 文件存在为块特殊文件为真
+        
+------      
+        
+<h2 id='3'>一、流程控制</h2>
+<h3 id='3.1'>3.1 条件控制</h3>
 
+        
+#### 1) 语法
+> - if [ ] ; then xxx ; elif [ ] ; then xxx ; else xxx ; fi
+> - 写在脚本里面则是
+                
+                if [ ]
+                then 
+                    xxx
+                elif [ ]
+                then 
+                    xxx
+                else 
+                    xxx
+                fi
 
+<h3 id='3.2'>3.2 循环控制</h3>
 
+        
+#### 1) for
+> - for var in xxx xxx xxx xxx ... ; do xxx xxx xxx ; done
+> - 不适用于循环
+> - 只能一条路走到底
+                
+                appledeMacBook-Pro:test lvhongbin$ for var in 1 2 3 4 5 ; do echo $var ; done
+                1
+                2
+                3
+                4
+                5
+#### 2) while
+> - while condition ; do xxx xxx xxx ; done
+                
+                appledeMacBook-Pro:~ lvhongbin$ i=0
+                appledeMacBook-Pro:~ lvhongbin$ while [ $i -lt 10 ]; do A[$i]=`expr $i + 1`; let i++; done
+                appledeMacBook-Pro:~ lvhongbin$ echo ${A[1]}
+                2
+                appledeMacBook-Pro:~ lvhongbin$ echo ${A[2]}
+                3
 
+                appledeMacBook-Pro:~ lvhongbin$ i=0
+                appledeMacBook-Pro:~ lvhongbin$ while [ $i -lt 10 ]; do echo ${A[$i]}; let i++; done
+                1
+                2
+                3
+                4
+                5
+                6
+                7
+                8
+                9
+                10
+
+#### 3) until
+> - 直到满足条件才退出
+> - 初始化条件跟循环语句不能写在同一行
+                
+                appledeMacBook-Pro:test lvhongbin$ b=0
+                appledeMacBook-Pro:test lvhongbin$ until [ $b -gt 10 ] ; do echo $b ; b=`expr $b + 1` ; done
+#### 4) 其他
+> - break
+> - continue
+
+<h3 id='3.3'>3.3 函数</h3>
+
+        
+#### 1) function关键字
+> - 参数用$1, $2...
+> - 因为第一个参数是$0 是bash
+                
+                appledeMacBook-Pro:~ lvhongbin$ function func(){ printf "%-5s %-5d\n" $1 $2; }
+                appledeMacBook-Pro:~ lvhongbin$ func xiaohong 10
+                xiaohong 10
+
+                appledeMacBook-Pro:~ lvhongbin$ function func(){ printf "%-5s %-5d\n" $0 $2; }
+                appledeMacBook-Pro:~ lvhongbin$ func xiaohong 10
+                -bash 10
+
+                appledeMacBook-Pro:~ lvhongbin$ function func(){
+                > echo "i love you"
+                > }
+                appledeMacBook-Pro:~ lvhongbin$ func
+                i love you
+
+参数类型 | 参数说明
+-|-
+$# | 传递到脚本的参数个数
+$* | 以一个单字符串显示所有向脚本传递的参数
+$$ | 脚本运行的当前进程ID号
+$! | 后台运行的最后一个进程的ID号
+$@ | 与$*相同，但是使用时加引号，并在引号中返回每个参数。
+$- | 显示Shell使用的当前选项，与set命令功能相同。
+$? | 显示最后命令的退出状态。0表示没有错误，其他任何值表明有错误。
 
 
 
