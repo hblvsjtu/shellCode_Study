@@ -24,7 +24,9 @@
 ### [3.2 循环控制](#3.2)
 ### [3.3 函数](#3.3)
 ## [四、输入输出重定向](#4)
-### [4.1 条件控制](#4.1)
+### [4.1 简介](#4.1)
+## [五、Vim操作](#5)
+### [5.1 重点](#5.1)
 
         
 ------      
@@ -397,6 +399,96 @@ $! | 后台运行的最后一个进程的ID号
 $@ | 与$*相同，但是使用时加引号，并在引号中返回每个参数。
 $- | 显示Shell使用的当前选项，与set命令功能相同。
 $? | 显示最后命令的退出状态。0表示没有错误，其他任何值表明有错误。
+        
+------      
+        
+<h2 id='4'>四、输入输出重定向</h2>
+<h3 id='4.1'>4.1 简介</h3>
 
+        
+#### 1) 命令
+> - 主要以大于号小于号为主，所以在做数字比较的时候不能使用大于号小于号
+> - 
+
+参数类型 | 参数说明
+-|-
+command > file | 将输出重定向到 file。
+command < file | 将输入重定向到 file。
+command >> file | 将输出以追加的方式重定向到 file。
+n > file | 将文件描述符为 n 的文件重定向到 file。
+n >> file |  将文件描述符为 n 的文件以追加的方式重定向到 file。
+n >& m | 将输出文件 m 和 n 合并。
+n <& m | 将输入文件 m 和 n 合并。
+<< tag | 将开始标记 tag 和结束标记 tag 之间的内容作为输入。
+                
+                appledeMacBook-Pro:test lvhongbin$ echo "i love you" >> argus.sh
+                appledeMacBook-Pro:test lvhongbin$ cat argus.sh
+                -bash: ./ab.js: Permission denied
+                i love you
+                appledeMacBook-Pro:test lvhongbin$ echo "i love you" > argus.sh
+                appledeMacBook-Pro:test lvhongbin$ cat argus.sh
+                i love you
+
+
+#### 2) 其他特殊情况
+> - 将 stdout 和 stderr 合并后重定向到 file
+                
+                $ command > file 2>&1
+                或者
+                $ command >> file 2>&1
+> - command 命令将 stdin 重定向到 file1，将 stdout 重定向到 file2。
+                
+                $ command < file1 >file2
+
+                appledeMacBook-Pro:test lvhongbin$ wc -l < argus.sh >> ab.js
+                appledeMacBook-Pro:test lvhongbin$ cat ab.js
+                const i = require('@baidu/lego-events-base-util-plat_test');
+                console.log(i);       1
+> - Here Document 可以讲两个断点标志位中间的内容全部给到它前面的命令 wc -l
+                
+                appledeMacBook-Pro:test lvhongbin$ wc -l << EOF 
+                > nihao
+                > woshi
+                > lvhongbin
+                > EOF
+                       3
+> - /dev/null 可以讲不想在屏幕上显示的内容重定向该文件上，这是一个特殊的文件，所有的内容输入到这里都会被丢掉，像个黑洞一般，吞噬所有文字
+
+        
+------      
+        
+<h2 id='5'>五、Vim操作</h2>
+<h3 id='5.1'>5.1 重点</h3>
+
+        
+#### 1) 搜索与替换
+
+参数类型 | 参数说明
+-|-
+?word  | 向下搜索
+/word  | 向上搜索
+:n1,n2s/word1/word2/g | 在n1到n2行中将word1替换成word2
+:1,$s/word1/word2/g | 在1到最后一行中将word1替换成word2
+
+#### 2) 删除、复制
+> - 删除
+
+参数类型 | 参数说明
+-|-
+dd  | 删除光标所在行
+ndd  | 向下删除n行
+dG | 删除光标所在到最后一行的所有数据
+d$ | 删除游标所在处，到该行的最后一个字符
+> - 复制
+
+参数类型 | 参数说明
+-|-
+yy  | 复制光标所在行
+nyy  | 向下复制n行
+yG | 复制光标所在到最后一行的所有数据
+y$ | 复制游标所在处，到该行的最后一个字符
+
+#### 3) 粘贴
+> - 粘贴 p
 
 
