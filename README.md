@@ -164,15 +164,18 @@ $?  | 显示最后命令的退出状态。**0表示没有错误，其他任何�
 > - 下面使用expr举例
 > - 注意算数式左右使用的是反上引号
 > - 注意二元运算符左右需要有一个空格
-                
-                appledeMacBook-Pro:lego_docs lvhongbin$ echo `expr 1 + 2`
-                3
-                appledeMacBook-Pro:test lvhongbin$ i=0 ; i="expr $i + 1"
-appledeMacBook-Pro:test lvhongbin$ ${i}
-1
+```bash
+    appledeMacBook-Pro:lego_docs lvhongbin$ echo `expr 1 + 2`
+    3
+    appledeMacBook-Pro:test lvhongbin$ i=0 ; i=`expr $i + 1`
+    appledeMacBook-Pro:test lvhongbin$ ${i}
+    1
+```
+
 #### 2) 算术运算符列表
 > - 需要注意的是乘号需要转义
 > - 相等yi
+
 参数类型 | 参数说明 | 举例
 -|-|-
 +  | 加法 | `expr $a + $b` 结果为 30。
@@ -181,8 +184,9 @@ appledeMacBook-Pro:test lvhongbin$ ${i}
 /  |除法  | `expr $b / $a` 结果为 2。
 %  |取余  | `expr $b % $a` 结果为 0。
 =  | 赋值 | a=$b 将把变量 b 的值赋给 a。
-== | 相等 | 用于比较两个数字，相同则返回 true。 [ $a == $b ] 返回 false。
-!= | 不相等 |用于比较两个数字，不相同则返回 true。   [ $a != $b ] 返回 true。
+== | 相等 | 用于比较两个数字，相同则返回 true。 \[ $a == $b \] 返回 false。
+!= | 不相等 |用于比较两个数字，不相同则返回 true。   \[ $a != $b \] 返回 true。
+
 #### 3) 关系运算符
 > - 注意前面有短横线-
 参数类型 | 参数说明 | 举例
